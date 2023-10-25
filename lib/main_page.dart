@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
+=======
+import 'package:red_line_tut/bottom_nav_bar.dart';
+>>>>>>> cb5b2f2 (Initial commit)
 import 'package:red_line_tut/chats_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -20,6 +24,7 @@ class _MainPageState extends State<MainPage> {
           topLeft: Radius.circular(10.0),
           topRight: Radius.circular(10.0),
         ),
+<<<<<<< HEAD
         child: BottomNavigationBar(
           //fixedColor: Color(0xFF141E46),
           currentIndex: 0,
@@ -98,6 +103,9 @@ class _MainPageState extends State<MainPage> {
             }
           },
         ),
+=======
+        child: BottomNavBar(context, 0),
+>>>>>>> cb5b2f2 (Initial commit)
       ),
       backgroundColor: Color(0xFFFFF5E0),
       appBar: AppBar(
