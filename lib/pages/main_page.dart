@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-=======
-import 'package:red_line_tut/bottom_nav_bar.dart';
->>>>>>> cb5b2f2 (Initial commit)
-import 'package:red_line_tut/chats_page.dart';
+
+import 'pages.dart';
+import 'widgets/bottom_nav_bar.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -19,94 +17,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10.0),
-          topRight: Radius.circular(10.0),
-        ),
-<<<<<<< HEAD
-        child: BottomNavigationBar(
-          //fixedColor: Color(0xFF141E46),
-          currentIndex: 0,
-
-          iconSize: 35,
-          selectedItemColor: Color(0xFFFF6969),
-          unselectedItemColor: Color(0xFFFFF5E0),
-          //backgroundColor: Color(0xFF141E46),
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          items: [
-            BottomNavigationBarItem(
-              backgroundColor: Color(0xFF141E46),
-              label: 'home',
-              icon: Icon(
-                Icons.home,
-              ),
-            ),
-            BottomNavigationBarItem(
-              label: 'chats',
-              icon: Icon(
-                Icons.wechat_sharp,
-              ),
-            ),
-            BottomNavigationBarItem(
-              label: 'nothing',
-              icon: Icon(
-                Icons.add_circle_outline,
-              ),
-            ),
-            BottomNavigationBarItem(
-              label: 'statics',
-              icon: Icon(
-                Icons.insert_chart_outlined,
-              ),
-            ),
-            BottomNavigationBarItem(
-              label: 'profile',
-              icon: Icon(
-                Icons.person,
-              ),
-            ),
-          ],
-          onTap: (value) {
-            if (value == 0) {
-              Navigator.pushReplacement(
-                  context,
-                  CupertinoPageRoute(
-                    builder: (context) => MainPage(),
-                  ));
-            } else if (value == 1) {
-              Navigator.pushReplacement(
-                  context,
-                  CupertinoPageRoute(
-                    builder: (context) => ChatsPage(),
-                  ));
-            } else if (value == 2) {
-              // Navigator.push(
-              //     context,
-              //     CupertinoPageRoute(
-              //       builder: (context) => MainPage(),
-              //     ));
-              setState(() {});
-            } else if (value == 3) {
-              Navigator.pushReplacement(
-                  context,
-                  CupertinoPageRoute(
-                    builder: (context) => MainPage(),
-                  ));
-            } else if (value == 4) {
-              Navigator.pushReplacement(
-                  context,
-                  CupertinoPageRoute(
-                    builder: (context) => MainPage(),
-                  ));
-            }
-          },
-        ),
-=======
-        child: BottomNavBar(context, 0),
->>>>>>> cb5b2f2 (Initial commit)
-      ),
+      bottomNavigationBar: BottomNavBar(context, 0),
       backgroundColor: Color(0xFFFFF5E0),
       appBar: AppBar(
         backgroundColor: Color(0xFFFF6969),
