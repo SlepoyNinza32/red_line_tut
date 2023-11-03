@@ -12,12 +12,12 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  double y = 500;
+  double y = 300;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavBar(context, 0),
+     // bottomNavigationBar: BottomNavBar(context, 0),
       backgroundColor: Color(0xFFFFF5E0),
       appBar: AppBar(
         backgroundColor: Color(0xFFFF6969),
@@ -194,6 +194,7 @@ class _MainPageState extends State<MainPage> {
                     Expanded(
                       child: ListView.builder(
                         itemBuilder: (context, index) => Container(
+                          margin: EdgeInsets.symmetric(horizontal: 6),
                           width: MediaQuery.of(context).size.width * 0.9,
                           height: MediaQuery.of(context).size.height * 0.3,
                           child: Card(

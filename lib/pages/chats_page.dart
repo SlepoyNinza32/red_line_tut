@@ -16,7 +16,7 @@ class _ChatsPageState extends State<ChatsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavBar(context, 1),
+      //bottomNavigationBar: BottomNavBar(context, 1),
       backgroundColor: Color(0xFFFFF5E0),
       appBar: AppBar(
         backgroundColor: Color(0xFFFF6969),

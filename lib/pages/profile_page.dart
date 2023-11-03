@@ -20,21 +20,23 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     box = Hive.box('profile');
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavBar(context, 4),
+        // bottomNavigationBar: BottomNavBar(context, 4),
         backgroundColor: Color(0xFFFFF5E0),
         body: Column(
           children: [
             Container(
-              width: MediaQuery.of(context). size.width,
+              width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.4,
               decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          "https://oyster.ignimgs.com/wordpress/stg.ign.com/2021/02/jujutsu-2.jpg"),
-                      fit: BoxFit.cover)),
+                image: DecorationImage(
+                    image: NetworkImage(
+                        "https://static.wikia.nocookie.net/jujutsu-kaisen/images/5/5a/Satoru_Gojo_arrives_on_the_battlefield_%28Anime%29.png/revision/latest?cb=20210226205256"),
+                    fit: BoxFit.cover),
+              ),
               child: Stack(
                 children: [
                   Positioned(
@@ -91,8 +93,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   TextStyle(color: Colors.grey, fontSize: 25),
                             ),
                             Text("Online",
-                                style: TextStyle(
-                                    color: Colors.grey, fontSize: 12))
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 12))
                           ],
                         ),
                       ))

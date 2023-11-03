@@ -1,7 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:red_line_tut/MyApp.dart';
+import 'package:red_line_tut/RiveUtils.dart';
+import 'package:rive/rive.dart';
 
+import '../model/profile_model.dart';
 import 'login_page.dart';
+import 'main_page.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
@@ -11,71 +17,190 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPageState extends State<FirstPage> {
+  TextEditingController loginContr = TextEditingController();
+  TextEditingController passwordContr = TextEditingController();
+
+  bool Isvisibile = true;
+
+  // late SMIBool searchTrigger;
+  late Box<ProfileModel> box;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    box = Hive.box('profile');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
+      body: Stack(
+        children: [
+          Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFFFFF5E0),
-                      Color(0xFFFF6969),
-                      Color(0xFFFF6969),
-                      Color(0xFF141E46),
-                    ])),
+            child: RiveAnimation.asset(
+              'rive_assets/background_login.riv',
+              fit: BoxFit.cover,
+              onInit: (artboard) {
+                // StateMachineController con = RiveUtils.getRiveController(artboard);
+                // searchTrigger = con.findSMI('active') as SMIBool;
+                //
+                // searchTrigger.change(true);
+              },
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             child: Column(
-                children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.18),
-                  Image.asset("assets/Red Line.png"),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.3),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text("Welcome to Red Line",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 23,
-                              color: Colors.white,
-                            )),
-                        const Text(
-                            "Order the best meals in Lagos and have \nthem delivered to your doorstep in little \nor no time.Doesn't that sound delicious",
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.white,
-                            )),
-                        ClipRRect(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(40),
-                            ),
-                            child: MaterialButton(
-                              onPressed: () {
-                                Navigator.pushReplacement(context, CupertinoPageRoute(builder: (_) => LogInPage()));
-                              },
-                              color: Colors.white,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                height: MediaQuery.of(context).size.height * 0.06,
-                                child: const Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text("Next",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w900,
-                                            color: Colors.grey)),
-                                  ],
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.2,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 20),
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        "Learn \nDesign \n& Code",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontFamily: "Poppins",
+                            fontSize: 50,
+                            color: Colors.white),
+                      ),
+                      Text(
+                        "Don't skip design. Learn design and\ncode,by building real apps with Flutter\n and Swift.Complete courses abut the\nbest tools",
+                        style:
+                            TextStyle(fontFamily: "Inter", color: Colors.white),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.2,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(40),
+                    ),
+                    child: MaterialButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(23)),
+                            elevation: 1,
+                            title: Text('Login'),
+                            actions: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(23),
+                                child: MaterialButton(
+                                  onPressed: () {
+                                    box.put('profileKey',ProfileModel(true, loginContr.value.text, passwordContr.value.text));
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => MyApp(),
+                                        ));
+                                  },
+                                  child: Container(
+                                    // width: MediaQuery.of(context).size.width * 0.5,
+                                    height: MediaQuery.of(context).size.height * 0.06,
+                                    child: const Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text("Let's go!",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                                fontFamily: "EBG")),
+                                      ],
+                                    ),
+                                  ),
+                                  color: Color(0xFFFF785B),
                                 ),
                               ),
-                            ))
-                      ],
+                            ],
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: TextField(
+                                    controller: loginContr,
+                                    decoration: const InputDecoration(
+                                        labelText: "Login",
+                                        border: OutlineInputBorder(
+                                            gapPadding: 20,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(20)))),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: TextField(
+                                    controller: passwordContr,
+                                    obscureText: Isvisibile,
+                                    decoration: InputDecoration(
+                                        suffixIcon: IconButton(
+                                            onPressed: () {
+                                              if (Isvisibile == false) {
+                                                Isvisibile = true;
+                                              } else {
+                                                Isvisibile = false;
+                                              }
+                                              setState(() {});
+                                            },
+                                            icon: Icon(Isvisibile == true
+                                                ? Icons.visibility_off
+                                                : Icons.visibility)),
+                                        labelText: "Password",
+                                        border: OutlineInputBorder(
+                                            gapPadding: 20,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(20)))),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                      color: Colors.white,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        height: MediaQuery.of(context).size.height * 0.08,
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Next->",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w900,
+                                    color: Colors.grey)),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ])));
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
