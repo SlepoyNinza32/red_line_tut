@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:red_line_tut/generated/assets.dart';
 import 'package:red_line_tut/pages/chats_page.dart';
 import 'package:red_line_tut/pages/main_page.dart';
 import 'package:red_line_tut/pages/pages.dart';
 import 'package:rive/rive.dart';
 
-import 'RiveUtils.dart';
+import 'rive_utils.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -39,7 +40,7 @@ class _MyAppState extends State<MyApp> {
 
                     bottomNavs[index].input!.change(true);
                     Future.delayed(
-                      Duration(milliseconds: 700),
+                      Duration(milliseconds: 500),
                       () {
                         setState(() {
                           currentIndex = index;
@@ -93,22 +94,27 @@ class RiveAsset {
 }
 
 List<RiveAsset> bottomNavs = [
-  RiveAsset('rive_assets/icons.riv',
+  RiveAsset(Assets.riveAssetsIcons,
       artboard: "HOME",
       stateMachineName: "HOME_interactivity",
       title: "Home",
       page: MainPage(),),
-  RiveAsset('rive_assets/icons.riv',
+  RiveAsset(Assets.riveAssetsIcons,
       artboard: "CHAT",
       stateMachineName: "CHAT_Interactivity",
       title: "Chat",
       page: ChatsPage(),),
-  RiveAsset('rive_assets/icons.riv',
+  RiveAsset(Assets.riveAssetsIcons,
+    artboard: "HOME",
+    stateMachineName: "HOME_interactivity",
+    title: "Home",
+    page: MainPage(),),
+  RiveAsset(Assets.riveAssetsIcons,
       artboard: "LIKE/STAR",
       stateMachineName: "STAR_Interactivity",
       title: "Star",
       page: MainPage(),),
-  RiveAsset('rive_assets/icons.riv',
+  RiveAsset(Assets.riveAssetsIcons,
       artboard: "USER",
       stateMachineName: "USER_Interactivity",
       title: "Profile",

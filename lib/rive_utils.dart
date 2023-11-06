@@ -8,4 +8,5 @@ class RiveUtils {
     artboard.addController(controller!);
     return controller;
   }
+
 }
