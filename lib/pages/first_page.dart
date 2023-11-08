@@ -1,14 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:red_line_tut/generated/assets.dart';
+import 'package:red_line_tut/model/users_model.dart';
 import 'package:red_line_tut/my_app.dart';
-import 'package:red_line_tut/rive_utils.dart';
 import 'package:rive/rive.dart';
 
-import '../model/profile_model.dart';
-import 'login_page.dart';
-import 'main_page.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
@@ -20,11 +18,12 @@ class FirstPage extends StatefulWidget {
 class _FirstPageState extends State<FirstPage> {
   TextEditingController loginContr = TextEditingController();
   TextEditingController passwordContr = TextEditingController();
+  CollectionReference user = FirebaseFirestore.instance.collection('users');
 
   bool isVisible = true;
 
   // late SMIBool searchTrigger;
-  late Box<ProfileModel> box;
+  late Box<UsersModel> box;
 
   @override
   void initState() {
@@ -110,17 +109,42 @@ class _FirstPageState extends State<FirstPage> {
                                 borderRadius: BorderRadius.circular(23),
                                 child: MaterialButton(
                                   onPressed: () {
-                                    box.put(
-                                        'profileKey',
-                                        ProfileModel(
-                                            true,
-                                            loginContr.value.text,
-                                            passwordContr.value.text));
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => MyApp(),
-                                        ));
+                                    FirebaseFirestore.instance
+                                        .collection('users')
+                                        .where('login',
+                                            isEqualTo: loginContr.value.text)
+                                        .where('password',
+                                            isEqualTo: passwordContr.value.text)
+                                        .get()
+                                        .then((QuerySnapshot querySnapshot) {
+                                      // querySnapshot.docs.forEach((doc) {
+                                      //   print(doc["first_name"]);
+                                      // });
+                                      for (var m in querySnapshot.docs) {
+                                        box.put(
+                                          'profileKey',
+                                          UsersModel(
+                                            avatar: m.get('avatar'),
+                                            courses: m.get('courses'),
+                                            isReg: true,
+                                            key: m.id,
+                                            login: m.get('login'),
+                                            name: m.get('name'),
+                                            password: m.get('password'),
+                                            sex: m.get('sex'),
+                                            telephoneNumber: m.get('telNumber'),
+                                            about: m.get('about'),
+                                          ),
+                                        );
+                                      }
+                                      print(querySnapshot.docs.first.id);
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => MyApp(),
+                                          ));
+                                    });
+
                                   },
                                   child: Container(
                                     // width: MediaQuery.of(context).size.width * 0.5,
@@ -142,7 +166,8 @@ class _FirstPageState extends State<FirstPage> {
                                 ),
                               ),
                             ],
-                            content: StatefulBuilder(builder: (BuildContext context,StateSetter setState1){
+                            content: StatefulBuilder(builder:
+                                (BuildContext context, StateSetter setState1) {
                               return Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [

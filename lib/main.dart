@@ -8,18 +8,19 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:red_line_tut/my_app.dart';
 import 'FirebaseMethods.dart';
 import 'firebase_options.dart';
-import 'model/profile_model.dart';
+import 'model/users_model.dart';
 import 'pages/pages.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  Hive.registerAdapter<ProfileModel>(ProfileModelAdapter());
-  Box<ProfileModel> box = await Hive.openBox<ProfileModel>('profile');
-  bool have = box.get('profileKey')?.have ?? false;
+  Hive.registerAdapter<UsersModel>(UsersModelAdapter());
+  Box<UsersModel> box = await Hive.openBox<UsersModel>('profile');
+  bool have = box.get('profileKey')?.isReg ?? false;
 
   runApp(
     MaterialApp(
@@ -30,9 +31,15 @@ void main() async {
   // FirebaseFirestore.instance
   //     .collection('users')
   //     .where('login', isEqualTo: 'aziz')
+  //     .where('password', isEqualTo: 'aziz007')
   //     .get()
-  //     .then(() {
-  //   print('');
-  //   return null;
-  // }) ;
+  //     .then((QuerySnapshot querySnapshot) {
+  //   // querySnapshot.docs.forEach((doc) {
+  //   //   print(doc["first_name"]);
+  //   // });
+  //   for (var m in querySnapshot.docs) {
+  //     print(m.get('name'));
+  //   }
+  //   print(querySnapshot.docs.first.id);
+  // });
 }
