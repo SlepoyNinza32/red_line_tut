@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -25,12 +27,12 @@ void main() async {
       home: have == true ? MyApp() : FirstPage(),
     ),
   );
-  FirebaseFirestore.instance
-      .collection('users')
-      .get()
-      .then((QuerySnapshot querySnapshot) {
-    querySnapshot.docs.forEach((doc) {
-      print(doc.id);
-    });
-  });
+  // FirebaseFirestore.instance
+  //     .collection('users')
+  //     .where('login', isEqualTo: 'aziz')
+  //     .get()
+  //     .then(() {
+  //   print('');
+  //   return null;
+  // }) ;
 }

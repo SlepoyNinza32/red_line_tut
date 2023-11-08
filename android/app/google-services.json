@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "338447448847",
+    "project_id": "redline-92e12",
+    "storage_bucket": "redline-92e12.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:338447448847:android:79bb8517ccdd5cf8a25c7a",
+        "android_client_info": {
+          "package_name": "com.example.red_line_tut"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLlbosOwXIKVhNasrPgtDJpKRG6JroxRU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
