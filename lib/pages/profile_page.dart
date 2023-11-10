@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:red_line_tut/model/users_model.dart';
+import 'package:hive/hive.dart';
+import 'package:red_line_tut/pages/widgets/edit_profile.dart';
+
+import '../model/users_model.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -14,7 +17,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     box = Hive.box('profile');
   }
@@ -37,42 +39,44 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Stack(
               children: [
                 Positioned(
-                  right: 0,
-                  top: MediaQuery.of(context).size.height * 0.02,
-                  child: PopupMenuButton<int>(
-                    itemBuilder: (context) => [
-                      // popupmenu item 1
-                      PopupMenuItem(
-                        value: 1, // row has two child icon and text.
-                        child: Row(
-                          children: [
-                            Icon(Icons.edit),
-                            SizedBox(
-                              width: 10,
+                    right: 0,
+                    top: MediaQuery.of(context).size.height * 0.02,
+                    child: PopupMenuButton<String>(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      itemBuilder: (context) {
+                        return [
+                          PopupMenuItem(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (_) => Edit_profile(index: 0)));
+                            },
+                            child: Row(
+                              children: [
+                                Icon(Icons.edit),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text("Edit Name")
+                              ],
                             ),
-                            Text("Edit Name")
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: 2,
-                        child: Row(
-                          children: [
-                            Icon(Icons.exit_to_app),
-                            SizedBox(
-                              // sized box with width 10
-                              width: 10,
+                          ),
+                          PopupMenuItem(
+                            child: Row(
+                              children: [
+                                Icon(Icons.exit_to_app),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text("Sign Out")
+                              ],
                             ),
-                            Text("Sign Out")
-                          ],
-                        ),
-                      ),
-                    ],
-                    offset: Offset(0, 100),
-                    color: Colors.white,
-                    elevation: 2,
-                  ),
-                ),
+                          )
+                        ];
+                      },
+                    )),
                 Positioned(
                     bottom: MediaQuery.of(context).size.height * 0.01,
                     child: Container(
@@ -81,16 +85,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: MediaQuery.of(context).size.height * 0.08,
                       width: MediaQuery.of(context).size.width,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "${box.get('profileKey')?.name}",
-                            style: TextStyle(color: Colors.grey, fontSize: 25),
+                            style: TextStyle(color: Colors.white, fontSize: 25),
                           ),
                           Text("Online",
                               style:
-                                  TextStyle(color: Colors.grey, fontSize: 12))
+                                  TextStyle(color: Colors.green, fontSize: 14))
                         ],
                       ),
                     ))
@@ -100,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Container(
             padding: EdgeInsets.only(left: 15, top: 8),
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.31,
+            // height: MediaQuery.of(context).size.height * 0.31,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +112,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.11,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -121,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Text("+998 ${box.get('profileKey')?.telephoneNumber}",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w600)),
-                      Text("Tap to change number",
+                      Text("Your phone number",
                           style: TextStyle(
                               fontSize: 13,
                               color: Colors.grey,
@@ -131,7 +135,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 Divider(
                   thickness: 0.2,
-                  height: 1,
+                  height: 2,
                   color: Colors.black,
                 ),
                 Container(
@@ -158,24 +162,31 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 2,
                   color: Colors.black,
                 ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "${box.get('profileKey')?.about}",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500),
-                      ),
-                      Text(
-                        "Add a few words about yourself(Bio)",
-                        style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
+                MaterialButton(
+                  padding:EdgeInsets.zero ,
+                  onPressed: (){Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (_) => Edit_profile(index: 1)));},
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${box.get('profileKey')?.about}",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500),
+                        ),
+                        Text(
+                          "Add a few words about yourself(Bio)",
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
