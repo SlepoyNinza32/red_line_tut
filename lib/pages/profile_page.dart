@@ -24,6 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Color(0xFFFFF5E0),
       body: Column(
         children: [
@@ -49,9 +50,13 @@ class _ProfilePageState extends State<ProfilePage> {
                           PopupMenuItem(
                             onTap: () {
                               Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                      builder: (_) => Edit_profile(index: 0)));
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (_) =>
+                                              Edit_profile(index: 0)))
+                                  .then((value) {
+                                setState(() {});
+                              });
                             },
                             child: Row(
                               children: [
@@ -163,11 +168,16 @@ class _ProfilePageState extends State<ProfilePage> {
                   color: Colors.black,
                 ),
                 MaterialButton(
-                  padding:EdgeInsets.zero ,
-                  onPressed: (){Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (_) => Edit_profile(index: 1)));},
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (_) => Edit_profile(index: 1)))
+                        .then((value) {
+                      setState(() {});
+                    });
+                  },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.1,
                     child: Column(

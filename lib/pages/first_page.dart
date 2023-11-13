@@ -22,12 +22,11 @@ class _FirstPageState extends State<FirstPage> {
 
   bool isVisible = true;
 
-  // late SMIBool searchTrigger;
+
   late Box<UsersModel> box;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     box = Hive.box('profile');
   }
@@ -138,7 +137,6 @@ class _FirstPageState extends State<FirstPage> {
                                           ),
                                         );
                                       }
-                                      print(querySnapshot.docs.first.id);
                                       Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(

@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'pages.dart';
-import 'widgets/bottom_nav_bar.dart';
+
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -12,7 +11,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  double y = 300;
+  double y = 315;
 
   @override
   Widget build(BuildContext context) {
