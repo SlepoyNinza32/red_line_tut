@@ -21,7 +21,7 @@ class UsersModel {
   @HiveField(7)
   int telephoneNumber;
   @HiveField(8)
-  String key;
+  String? key;
   @HiveField(9)
   String about;
 
@@ -34,6 +34,7 @@ class UsersModel {
       required this.sex,
       required this.isReg,
       required this.telephoneNumber,
-      required this.key,
+      this.key,
       required this.about});
+
 }

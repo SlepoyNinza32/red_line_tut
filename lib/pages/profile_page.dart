@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:red_line_tut/pages/first_page.dart';
 import 'package:red_line_tut/pages/widgets/edit_profile.dart';
 
 import '../model/users_model.dart';
@@ -69,6 +70,33 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                           PopupMenuItem(
+                            onTap: () {
+                              // user.doc(box.get('profileKey')!.key).update({
+                              //   'name': txtcontr.value.text,
+                              // });
+                              box.put(
+                                'profileKey',
+                                UsersModel(
+                                  login: box.get('profileKey')!.login,
+                                  name: box.get('profileKey')!.name,
+                                  password: box.get('profileKey')!.password,
+                                  avatar: box.get('profileKey')!.avatar,
+                                  courses: box.get('profileKey')!.courses,
+                                  sex: box.get('profileKey')!.sex,
+                                  isReg: false,
+                                  telephoneNumber:
+                                      box.get('profileKey')!.telephoneNumber,
+                                  key: box.get('profileKey')!.key,
+                                  about: box.get('profileKey')!.about,
+                                ),
+                              );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FirstPage(),
+                                ),
+                              );
+                            },
                             child: Row(
                               children: [
                                 Icon(Icons.exit_to_app),

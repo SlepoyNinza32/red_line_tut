@@ -7,7 +7,6 @@ import 'package:red_line_tut/model/users_model.dart';
 import 'package:red_line_tut/my_app.dart';
 import 'package:rive/rive.dart';
 
-
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
 
@@ -21,7 +20,6 @@ class _FirstPageState extends State<FirstPage> {
   CollectionReference user = FirebaseFirestore.instance.collection('users');
 
   bool isVisible = true;
-
 
   late Box<UsersModel> box;
 
@@ -121,6 +119,18 @@ class _FirstPageState extends State<FirstPage> {
                                       //   print(doc["first_name"]);
                                       // });
                                       for (var m in querySnapshot.docs) {
+                                        // user.add(
+                                        //   {
+                                        //     'login':'ismoil',
+                                        //     'password':'slwpoyninza32',
+                                        //     'avatar':'male01',
+                                        //     'about':'smth',
+                                        //     'sex': true,
+                                        //     'telNumber':555,
+                                        //     'courses':['English', 'Math'],
+                                        //     'name':'None',
+                                        //   }
+                                        // );
                                         box.put(
                                           'profileKey',
                                           UsersModel(
@@ -137,13 +147,16 @@ class _FirstPageState extends State<FirstPage> {
                                           ),
                                         );
                                       }
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => MyApp(),
-                                          ));
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => MyApp(),
+                                        ),
+                                        (route) {
+                                          return false;
+                                        },
+                                      );
                                     });
-
                                   },
                                   child: Container(
                                     // width: MediaQuery.of(context).size.width * 0.5,
