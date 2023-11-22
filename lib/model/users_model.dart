@@ -13,7 +13,7 @@ class UsersModel {
   @HiveField(3)
   String avatar;
   @HiveField(4)
-  List<dynamic> courses;
+  List<CoursesModel> courses;
   @HiveField(5)
   bool sex;
   @HiveField(6)
@@ -36,5 +36,43 @@ class UsersModel {
       required this.telephoneNumber,
       this.key,
       required this.about});
+}
+@HiveType(typeId: 1)
+class CoursesModel {
+  @HiveField(0)
+  String? nameCourse;
+  @HiveField(1)
+  String? tutor;
+  @HiveField(2)
+  int? balance;
+  @HiveField(3)
+  int? costOfCourse;
 
+  CoursesModel({
+    required this.nameCourse,
+    required this.tutor,
+    required this.balance,
+    required this.costOfCourse,
+  });
+
+  CoursesModel.fromJson(Map<String, dynamic> json) {
+    balance = json['balance'];
+    costOfCourse = json['costOfCourse'];
+    nameCourse = json['nameOfCourse'];
+    tutor = json['tutor'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['balance'] = balance;
+    data['costOfCourse'] = costOfCourse;
+    data['nameOfCourse'] = nameCourse;
+    data['tutor'] = tutor;
+    return data;
+  }
+}
+
+
+ListJson(dynamic json){
+  return List<CoursesModel>.from(json.map((e)=>CoursesModel.fromJson(e)));
 }

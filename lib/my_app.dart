@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:red_line_tut/generated/assets.dart';
+import 'package:red_line_tut/pages/admin/admin_page.dart';
 import 'package:red_line_tut/pages/chats_page.dart';
 import 'package:red_line_tut/pages/main_page.dart';
 import 'package:red_line_tut/pages/pages.dart';
@@ -113,7 +114,7 @@ List<RiveAsset> bottomNavs = [
       artboard: "LIKE/STAR",
       stateMachineName: "STAR_Interactivity",
       title: "Star",
-      page: MainPage(),),
+      page: AdminPage(),),
   RiveAsset(Assets.riveAssetsIcons,
       artboard: "USER",
       stateMachineName: "USER_Interactivity",

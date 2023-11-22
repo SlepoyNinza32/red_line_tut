@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+
+import '../model/users_model.dart';
 
 
 
@@ -12,11 +15,19 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   double y = 315;
+  late Box<UsersModel> box;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    box = Hive.box('profile');
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     // bottomNavigationBar: BottomNavBar(context, 0),
+      // bottomNavigationBar: BottomNavBar(context, 0),
       backgroundColor: Color(0xFFFFF5E0),
       appBar: AppBar(
         backgroundColor: Color(0xFFFF6969),
@@ -43,8 +54,9 @@ class _MainPageState extends State<MainPage> {
                     height: MediaQuery.of(context).size.height * 0.3,
                     width: MediaQuery.of(context).size.width,
                     child: ListView.builder(
+                      physics: PageScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      itemCount: 1,
+                      itemCount: box.get('profileKey')!.courses.length,
                       itemBuilder: (context, index) => Container(
                         padding: EdgeInsets.all(10),
                         margin: EdgeInsets.all(8),
@@ -59,7 +71,7 @@ class _MainPageState extends State<MainPage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              'Cost of Course',
+                              '${box.get('profileKey')!.courses[index].balance} / ${box.get('profileKey')!.courses[index].costOfCourse}',
                               style: TextStyle(
                                 color: Color(0xFF141E46),
                                 fontSize: 30,
@@ -68,7 +80,7 @@ class _MainPageState extends State<MainPage> {
                             ),
                             SizedBox(height: 8),
                             Text(
-                              'name of course',
+                              '${box.get('profileKey')!.courses[index].nameCourse} by ${box.get('profileKey')!.courses[index].tutor}',
                               style: TextStyle(
                                 color: Color(0xFF141E46),
                                 fontSize: 21,
@@ -200,7 +212,7 @@ class _MainPageState extends State<MainPage> {
                             child: Column(),
                             shape: RoundedRectangleBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(36)),
+                              BorderRadius.all(Radius.circular(36)),
                             ),
                           ),
                         ),
@@ -220,3 +232,6 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
+
+
+            

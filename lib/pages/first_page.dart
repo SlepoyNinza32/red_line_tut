@@ -131,11 +131,12 @@ class _FirstPageState extends State<FirstPage> {
                                         //     'name':'None',
                                         //   }
                                         // );
+                                        print(m.get('courses'));
                                         box.put(
                                           'profileKey',
                                           UsersModel(
                                             avatar: m.get('avatar'),
-                                            courses: m.get('courses'),
+                                            courses: ListJson(m.get('courses')),
                                             isReg: true,
                                             key: m.id,
                                             login: m.get('login'),
@@ -146,6 +147,20 @@ class _FirstPageState extends State<FirstPage> {
                                             about: m.get('about'),
                                           ),
                                         );
+                                        // print(
+                                        //   UsersModel(
+                                        //     avatar: m.get('avatar'),
+                                        //     courses: ListJson(m.get('courses')),
+                                        //     isReg: true,
+                                        //     key: m.id,
+                                        //     login: m.get('login'),
+                                        //     name: m.get('name'),
+                                        //     password: m.get('password'),
+                                        //     sex: m.get('sex'),
+                                        //     telephoneNumber: m.get('telNumber'),
+                                        //     about: m.get('about'),
+                                        //   ),
+                                        // );
                                       }
                                       Navigator.pushAndRemoveUntil(
                                         context,

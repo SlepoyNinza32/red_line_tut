@@ -6,6 +6,7 @@ import 'package:red_line_tut/my_app.dart';
 
 import 'firebase_options.dart';
 import 'model/users_model.dart';
+import 'pages/admin/admin_page.dart';
 import 'pages/pages.dart';
 
 void main() async {
@@ -16,13 +17,15 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter<UsersModel>(UsersModelAdapter());
+  Hive.registerAdapter<CoursesModel>(CoursesModelAdapter());
   Box<UsersModel> box = await Hive.openBox<UsersModel>('profile');
   bool have = box.get('profileKey')?.isReg ?? false;
 
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: have == true ? MyApp() : FirstPage(),
+      home:
+      have == true ? MyApp() : FirstPage(),
     ),
   );
   // FirebaseFirestore.instance

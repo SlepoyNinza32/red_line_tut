@@ -51,10 +51,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           PopupMenuItem(
                             onTap: () {
                               Navigator.push(
-                                      context,
-                                      CupertinoPageRoute(
-                                          builder: (_) =>
-                                              Edit_profile(index: 0)))
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (_) =>
+                                          Edit_profile(index: 0)))
                                   .then((value) {
                                 setState(() {});
                               });
@@ -85,7 +85,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   sex: box.get('profileKey')!.sex,
                                   isReg: false,
                                   telephoneNumber:
-                                      box.get('profileKey')!.telephoneNumber,
+                                  box.get('profileKey')!.telephoneNumber,
                                   key: box.get('profileKey')!.key,
                                   about: box.get('profileKey')!.about,
                                 ),
@@ -127,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           Text("Online",
                               style:
-                                  TextStyle(color: Colors.green, fontSize: 14))
+                              TextStyle(color: Colors.green, fontSize: 14))
                         ],
                       ),
                     ))
@@ -199,9 +199,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   padding: EdgeInsets.zero,
                   onPressed: () {
                     Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (_) => Edit_profile(index: 1)))
+                        context,
+                        CupertinoPageRoute(
+                            builder: (_) => Edit_profile(index: 1)))
                         .then((value) {
                       setState(() {});
                     });
