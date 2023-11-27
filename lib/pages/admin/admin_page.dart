@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +16,6 @@ class _AdminPageState extends State<AdminPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // getIds();
-    // print(
-    // FirebaseFirestore.instance
-    //     .collection('groups').snapshots().length);
   }
 
   Future<List<ListIdModel>> getIds() async {
@@ -30,18 +24,13 @@ class _AdminPageState extends State<AdminPage> {
         .get()
         .then((QuerySnapshot querySnapshot) {
       for (var b in querySnapshot.docs) {
-        // gggl.add(
-        //   ListJsontoIdModel(
-        //     FirebaseFirestore.instance.collection('groups').doc(b.id).get(),
-        //   ),
-        // );
         gggl.add(
           ListIdModel(
             students: ListJsontoIdModel(
               b.get('students'),
-              name: b.get('name'),
-              teacher: b.get('teacher'),
             ),
+            name: b.get('name'),
+            teacher: b.get('teacher'),
           ),
         );
         // gggl.name = b.get('name');
@@ -68,7 +57,7 @@ class _AdminPageState extends State<AdminPage> {
                   itemBuilder: (context, index) => ListTile(
                     title: Text('${snapshot.data?[index].name}'),
                   ),
-                  itemCount: snapshot.data?.students,
+                  itemCount: snapshot.data?.length,
                 );
               }
             }),
@@ -79,7 +68,7 @@ class _AdminPageState extends State<AdminPage> {
 
 class ListIdModel {
   // List<String>? ids;
-  List<Student> students;
+  List<Student>? students;
   String? name, teacher;
 
   ListIdModel({
@@ -89,23 +78,20 @@ class ListIdModel {
     required this.teacher,
   });
 
-// ListIdModel.fromJson(Map<String, dynamic> json) {
-//   // ids = json['ids'];
-//   students = json['students'];
-//   was = json['was'];
-//   name = json['name'];
-//   teacher = json['teacher'];
-// }
-//
-// Map<String, dynamic> toJson() {
-//   final Map<String, dynamic> data = <String, dynamic>{};
-//   // data['ids'] = ids;
-//   data['students'] = students;
-//   data['was'] = was;
-//   data['name'] = name;
-//   data['teacher'] = teacher;
-//   return data;
-// }
+  ListIdModel.fromJson(Map<String, dynamic> json) {
+    students = json['students'];
+    name = json['name'];
+    teacher = json['teacher'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    // data['ids'] = ids;
+    data['students'] = students;
+    data['name'] = name;
+    data['teacher'] = teacher;
+    return data;
+  }
 }
 
 class Student {
@@ -115,14 +101,12 @@ class Student {
   Student(this.name, this.was);
 
   Student.fromJson(Map<String, dynamic> json) {
-    // ids = json['ids'];
     name = json['name'];
     was = json['was'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    // data['ids'] = ids;
     data['was'] = was;
     data['name'] = name;
     return data;

@@ -115,23 +115,7 @@ class _FirstPageState extends State<FirstPage> {
                                             isEqualTo: passwordContr.value.text)
                                         .get()
                                         .then((QuerySnapshot querySnapshot) {
-                                      // querySnapshot.docs.forEach((doc) {
-                                      //   print(doc["first_name"]);
-                                      // });
                                       for (var m in querySnapshot.docs) {
-                                        // user.add(
-                                        //   {
-                                        //     'login':'ismoil',
-                                        //     'password':'slwpoyninza32',
-                                        //     'avatar':'male01',
-                                        //     'about':'smth',
-                                        //     'sex': true,
-                                        //     'telNumber':555,
-                                        //     'courses':['English', 'Math'],
-                                        //     'name':'None',
-                                        //   }
-                                        // );
-                                        print(m.get('courses'));
                                         box.put(
                                           'profileKey',
                                           UsersModel(
@@ -147,20 +131,6 @@ class _FirstPageState extends State<FirstPage> {
                                             about: m.get('about'),
                                           ),
                                         );
-                                        // print(
-                                        //   UsersModel(
-                                        //     avatar: m.get('avatar'),
-                                        //     courses: ListJson(m.get('courses')),
-                                        //     isReg: true,
-                                        //     key: m.id,
-                                        //     login: m.get('login'),
-                                        //     name: m.get('name'),
-                                        //     password: m.get('password'),
-                                        //     sex: m.get('sex'),
-                                        //     telephoneNumber: m.get('telNumber'),
-                                        //     about: m.get('about'),
-                                        //   ),
-                                        // );
                                       }
                                       Navigator.pushAndRemoveUntil(
                                         context,
