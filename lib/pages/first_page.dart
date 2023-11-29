@@ -115,32 +115,37 @@ class _FirstPageState extends State<FirstPage> {
                                             isEqualTo: passwordContr.value.text)
                                         .get()
                                         .then((QuerySnapshot querySnapshot) {
-                                      for (var m in querySnapshot.docs) {
-                                        box.put(
-                                          'profileKey',
-                                          UsersModel(
-                                            avatar: m.get('avatar'),
-                                            courses: ListJson(m.get('courses')),
-                                            isReg: true,
-                                            key: m.id,
-                                            login: m.get('login'),
-                                            name: m.get('name'),
-                                            password: m.get('password'),
-                                            sex: m.get('sex'),
-                                            telephoneNumber: m.get('telNumber'),
-                                            about: m.get('about'),
-                                          ),
-                                        );
-                                      }
-                                      Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => MyApp(),
-                                        ),
-                                        (route) {
-                                          return false;
-                                        },
-                                      );
+                                          if(!querySnapshot.docs.isEmpty){
+                                            for (var m in querySnapshot.docs) {
+                                              box.put(
+                                                'profileKey',
+                                                UsersModel(
+                                                  avatar: m.get('avatar'),
+                                                  courses: ListJson(m.get('courses')),
+                                                  isReg: true,
+                                                  key: m.id,
+                                                  login: m.get('login'),
+                                                  name: m.get('name'),
+                                                  password: m.get('password'),
+                                                  sex: m.get('sex'),
+                                                  telephoneNumber: m.get('telNumber'),
+                                                  about: m.get('about'),
+                                                ),
+                                              );
+                                            }
+                                            Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => MyApp(),
+                                              ),
+                                                  (route) {
+                                                return false;
+                                              },
+                                            );
+                                          }else{
+                                            Navigator.pop(context);
+                                          }
+
                                     });
                                   },
                                   child: Container(
