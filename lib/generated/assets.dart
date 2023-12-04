@@ -2,6 +2,7 @@
 class Assets {
   Assets._();
 
+  static const String assetsLogo = 'assets/logo.png';
   static const String riveAssetsBackgroundLogin = 'assets/rive_assets/background_login.riv';
   static const String riveAssetsIcons = 'assets/rive_assets/icons.riv';
 

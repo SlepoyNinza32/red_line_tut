@@ -37,6 +37,7 @@ class UsersModel {
       this.key,
       required this.about});
 }
+
 @HiveType(typeId: 1)
 class CoursesModel {
   @HiveField(0)
@@ -72,7 +73,6 @@ class CoursesModel {
   }
 }
 
-
-ListJson(dynamic json){
-  return List<CoursesModel>.from(json.map((e)=>CoursesModel.fromJson(e)));
+ListJson(dynamic json) {
+  return List<CoursesModel>.from(json.map((e) => CoursesModel.fromJson(e)));
 }

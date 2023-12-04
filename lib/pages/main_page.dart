@@ -33,6 +33,7 @@ class _MainPageState extends State<MainPage> {
       for (var m in querysnapshot.docs) {
         news.add(
           News(
+            title: '',
             text: m.get('text'),
             time: m.get('time'),
           ),
@@ -89,7 +90,7 @@ class _MainPageState extends State<MainPage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              '${box.get('profileKey')!.courses[index].balance} / ${box.get('profileKey')!.courses[index].costOfCourse}',
+                              '${box.get('profileKey')?.courses[index].balance.toString()} / ${box.get('profileKey')?.courses[index].costOfCourse.toString()}',
                               style: TextStyle(
                                 color: Color(0xFF141E46),
                                 fontSize: 30,
