@@ -35,7 +35,7 @@ class _MainPageState extends State<MainPage> {
       for (var m in querysnapshot.docs) {
         news.add(
           News(
-            title: '',
+            //title: '',
             text: m.get('text'),
             time: m.get('time'),
             title: m.get('title'), imageUrl: '',
