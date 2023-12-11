@@ -2,8 +2,9 @@ class News{
   String title;
   String text;
   String time;
+  String imageUrl;
 
 
-  News({required this.title,required this.text,required this.time});
+  News({required this.title,required this.text,required this.time,required this.imageUrl});
 }
 

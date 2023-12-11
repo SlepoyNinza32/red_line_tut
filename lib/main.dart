@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:red_line_tut/my_app.dart';
+import 'package:red_line_tut/pages/admin/upload_news.dart';
 
 import 'firebase_options.dart';
 import 'model/users_model.dart';
@@ -24,8 +25,8 @@ void main() async {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:
-      have == true ? MyApp() : FirstPage(),
+      home: Upload_News()
+      // have == true ? MyApp() : FirstPage(),
     ),
   );
   // FirebaseFirestore.instance

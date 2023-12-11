@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -26,6 +27,7 @@ class _MainPageState extends State<MainPage> {
 
   Future<List<News>> getNews() async {
     List<News> news = [];
+
     await FirebaseFirestore.instance
         .collection("news")
         .get()
@@ -36,6 +38,7 @@ class _MainPageState extends State<MainPage> {
             title: '',
             text: m.get('text'),
             time: m.get('time'),
+            title: m.get('title'), imageUrl: '',
           ),
         );
       }
@@ -225,7 +228,6 @@ class _MainPageState extends State<MainPage> {
                       child: FutureBuilder(
                         future: getNews(),
                         builder: (context, snapshot) {
-                          print("SNAPSHOT:${snapshot.error}");
                           if (snapshot.hasError || !snapshot.hasData) {
                             return ListView.builder(
                               // itemCount: 1,
