@@ -2,7 +2,7 @@
     <application
         android:label="red_line_tut"
         android:name="${applicationName}"
-        android:icon="@mipmap/red_line">
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:exported="true"
