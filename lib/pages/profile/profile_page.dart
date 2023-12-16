@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:red_line_tut/pages/first_page.dart';
-import 'package:red_line_tut/pages/widgets/edit_profile.dart';
+import 'package:red_line_tut/pages/profile/edit_profile.dart';
 
-import '../model/users_model.dart';
+import '../../model/users_model.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
