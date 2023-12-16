@@ -1,11 +1,9 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:red_line_tut/model/news_model.dart';
 
 class Upload_News extends StatefulWidget {
@@ -29,7 +27,7 @@ class _Upload_NewsState extends State<Upload_News> {
 
   CollectionReference news = FirebaseFirestore.instance.collection("news");
 
-  Future uploadImage() async {
+  Future uploadNews() async {
     final path = pickedFile!.name;
     File file = File(pickedFile!.path!);
     final ref = FirebaseStorage.instance.ref().child(path);
@@ -37,14 +35,18 @@ class _Upload_NewsState extends State<Upload_News> {
       imageUrl = await FirebaseStorage.instance
           .ref()
           .child(pickedFile?.name ?? "")
-          .getData();
-      news.add({
-        News(
-            title: titleContr.text,
-            text: textContr.text,
-            time: timeContr.text,
-            imageUrl: imageUrl)
-      });
+          .getDownloadURL();
+      if (timeContr.text != "" &&
+          textContr.text != "" &&
+          timeContr.text != "" &&
+          imageUrl != "") {
+        news.add({
+          "title": titleContr.text,
+          "text": textContr.text,
+          "time": timeContr.text,
+          "imageUrl": imageUrl
+        });
+      }
     });
   }
 
@@ -55,55 +57,59 @@ class _Upload_NewsState extends State<Upload_News> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: titleContr,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(), hintText: "Title"),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: textContr,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(), hintText: "Text"),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: timeContr,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(), hintText: "Time"),
-            ),
-          ),
-          if (pickedFile != null)
-            Expanded(
-                child: Container(
-              color: Colors.blue[100],
-              child: Image.file(
-                File(pickedFile!.path!),
-                width: double.infinity,
-                fit: BoxFit.cover,
+      backgroundColor: Color(0xFFFFF5E0),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: titleContr,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(), hintText: "Title"),
               ),
-            )),
-          MaterialButton(
-            onPressed: () {
-              selectImage();
-            },
-            child: Text("Upload image"),
-          ),
-          MaterialButton(
-            onPressed: () {
-              uploadImage().then((value) {});
-            },
-            child: Text("Publish"),
-          )
-        ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: textContr,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(), hintText: "Text"),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: timeContr,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(), hintText: "Time"),
+              ),
+            ),
+            MaterialButton(
+              onPressed: () {
+                selectImage();
+              },
+              child: Text("Upload image"),
+            ),
+            MaterialButton(
+              onPressed: () {
+                uploadNews().then((value) {});
+              },
+              child: Text("Publish"),
+            ),
+            if (pickedFile != null)
+              Expanded(
+                child: Container(
+                  color: Colors.blue[100],
+                  child: Image.file(
+                    File(pickedFile!.path!),
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

@@ -42,10 +42,6 @@ class _FirstPageState extends State<FirstPage> {
               Assets.riveAssetsBackgroundLogin,
               fit: BoxFit.cover,
               onInit: (artboard) {
-                // StateMachineController con = RiveUtils.getRiveController(artboard);
-                // searchTrigger = con.findSMI('active') as SMIBool;
-                //
-                // searchTrigger.change(true);
               },
             ),
           ),
@@ -115,37 +111,38 @@ class _FirstPageState extends State<FirstPage> {
                                             isEqualTo: passwordContr.value.text)
                                         .get()
                                         .then((QuerySnapshot querySnapshot) {
-                                          if(!querySnapshot.docs.isEmpty){
-                                            for (var m in querySnapshot.docs) {
-                                              box.put(
-                                                'profileKey',
-                                                UsersModel(
-                                                  avatar: m.get('avatar'),
-                                                  courses: ListJson(m.get('courses')),
-                                                  isReg: true,
-                                                  key: m.id,
-                                                  login: m.get('login'),
-                                                  name: m.get('name'),
-                                                  password: m.get('password'),
-                                                  sex: m.get('sex'),
-                                                  telephoneNumber: m.get('telNumber'),
-                                                  about: m.get('about'),
-                                                ),
-                                              );
-                                            }
-                                            Navigator.pushAndRemoveUntil(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => MyApp(),
-                                              ),
-                                                  (route) {
-                                                return false;
-                                              },
-                                            );
-                                          }else{
-                                            Navigator.pop(context);
-                                          }
-
+                                      if (!querySnapshot.docs.isEmpty) {
+                                        for (var m in querySnapshot.docs) {
+                                          box.put(
+                                            'profileKey',
+                                            UsersModel(
+                                              avatar: m.get('avatar'),
+                                              courses:
+                                                  ListJson(m.get('courses')),
+                                              isReg: true,
+                                              key: m.id,
+                                              login: m.get('login'),
+                                              name: m.get('name'),
+                                              password: m.get('password'),
+                                              sex: m.get('sex'),
+                                              telephoneNumber:
+                                                  m.get('telNumber'),
+                                              about: m.get('about'),
+                                            ),
+                                          );
+                                        }
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => MyApp(),
+                                          ),
+                                          (route) {
+                                            return false;
+                                          },
+                                        );
+                                      } else {
+                                        Navigator.pop(context);
+                                      }
                                     });
                                   },
                                   child: Container(
@@ -191,26 +188,29 @@ class _FirstPageState extends State<FirstPage> {
                                       controller: passwordContr,
                                       obscureText: isVisible,
                                       decoration: InputDecoration(
-                                          suffixIconColor: Colors.black54,
-                                          suffixIcon: IconButton(
-                                              onPressed: () {
-                                                print(isVisible);
-                                                setState1(() {
-                                                  if (isVisible != false) {
-                                                    isVisible = false;
-                                                  } else {
-                                                    isVisible = true;
-                                                  }
-                                                });
-                                              },
-                                              icon: Icon(isVisible == false
-                                                  ? Icons.visibility
-                                                  : Icons.visibility_off)),
-                                          labelText: "Password",
-                                          border: const OutlineInputBorder(
-                                              gapPadding: 20,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(20)))),
+                                        suffixIconColor: Colors.black54,
+                                        suffixIcon: IconButton(
+                                            onPressed: () {
+                                              print(isVisible);
+                                              setState1(() {
+                                                if (isVisible != false) {
+                                                  isVisible = false;
+                                                } else {
+                                                  isVisible = true;
+                                                }
+                                              });
+                                            },
+                                            icon: Icon(isVisible == false
+                                                ? Icons.visibility
+                                                : Icons.visibility_off)),
+                                        labelText: "Password",
+                                        border: const OutlineInputBorder(
+                                          gapPadding: 20,
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(20),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],

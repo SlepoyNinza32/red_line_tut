@@ -25,8 +25,8 @@ void main() async {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Upload_News()
-      // have == true ? MyApp() : FirstPage(),
+      home:
+      have == true ? MyApp() : FirstPage(),
     ),
   );
   // FirebaseFirestore.instance

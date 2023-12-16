@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:red_line_tut/generated/assets.dart';
 import 'package:red_line_tut/pages/admin/admin_page.dart';
+import 'package:red_line_tut/pages/admin/upload_news.dart';
 import 'package:red_line_tut/pages/chats_page.dart';
 import 'package:red_line_tut/pages/main_page.dart';
 import 'package:red_line_tut/pages/pages.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +40,6 @@ class _MyAppState extends State<MyApp> {
                 bottomNavs.length,
                 (index) => GestureDetector(
                   onTap: () {
-
                     bottomNavs[index].input!.change(true);
                     Future.delayed(
                       Duration(milliseconds: 500),
@@ -95,29 +96,39 @@ class RiveAsset {
 }
 
 List<RiveAsset> bottomNavs = [
-  RiveAsset(Assets.riveAssetsIcons,
-      artboard: "HOME",
-      stateMachineName: "HOME_interactivity",
-      title: "Home",
-      page: MainPage(),),
-  RiveAsset(Assets.riveAssetsIcons,
-      artboard: "CHAT",
-      stateMachineName: "CHAT_Interactivity",
-      title: "Chat",
-      page: ChatsPage(),),
-  RiveAsset(Assets.riveAssetsIcons,
+  RiveAsset(
+    Assets.riveAssetsIcons,
     artboard: "HOME",
     stateMachineName: "HOME_interactivity",
     title: "Home",
-    page: MainPage(),),
-  RiveAsset(Assets.riveAssetsIcons,
-      artboard: "LIKE/STAR",
-      stateMachineName: "STAR_Interactivity",
-      title: "Star",
-      page: AdminPage(),),
-  RiveAsset(Assets.riveAssetsIcons,
-      artboard: "USER",
-      stateMachineName: "USER_Interactivity",
-      title: "Profile",
-      page: ProfilePage(),),
+    page: MainPage(),
+  ),
+  RiveAsset(
+    Assets.riveAssetsIcons,
+    artboard: "CHAT",
+    stateMachineName: "CHAT_Interactivity",
+    title: "Chat",
+    page: ChatsPage(),
+  ),
+  RiveAsset(
+    Assets.riveAssetsIcons,
+    artboard: "HOME",
+    stateMachineName: "HOME_interactivity",
+    title: "Home",
+    page: Upload_News(),
+  ),
+  RiveAsset(
+    Assets.riveAssetsIcons,
+    artboard: "LIKE/STAR",
+    stateMachineName: "STAR_Interactivity",
+    title: "Star",
+    page: AdminPage(),
+  ),
+  RiveAsset(
+    Assets.riveAssetsIcons,
+    artboard: "USER",
+    stateMachineName: "USER_Interactivity",
+    title: "Profile",
+    page: ProfilePage(),
+  ),
 ];
