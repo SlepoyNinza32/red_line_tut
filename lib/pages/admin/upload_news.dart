@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:red_line_tut/model/news_model.dart';
 
 class Upload_News extends StatefulWidget {
   const Upload_News({super.key});
@@ -39,7 +38,8 @@ class _Upload_NewsState extends State<Upload_News> {
       if (timeContr.text != "" &&
           textContr.text != "" &&
           timeContr.text != "" &&
-          imageUrl != "") {
+          imageUrl != ""
+      ) {
         news.add({
           "title": titleContr.text,
           "text": textContr.text,
