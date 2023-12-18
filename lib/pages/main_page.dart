@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:red_line_tut/model/news_model.dart';
+import 'package:red_line_tut/my_app.dart';
 
 import '../model/users_model.dart';
 
@@ -232,6 +233,18 @@ class _MainPageState extends State<MainPage> {
                               itemCount: 1,
                               itemBuilder: (context, index) {
                                 return CircularProgressIndicator();
+                                //
+                                //
+                                //
+                                //
+                                //
+                                //
+                                //
+                                //
+
+                                //
+
+                                //
                               },
                             );
                           } else {
@@ -241,75 +254,136 @@ class _MainPageState extends State<MainPage> {
                                 width: MediaQuery.of(context).size.width * 0.9,
                                 height:
                                     MediaQuery.of(context).size.height * 0.3,
-                                child: Card(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        padding: EdgeInsets.only(right: 8.0),
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.4,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.23,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          // Image border
-                                          child: SizedBox.fromSize(
-                                            size: Size.fromRadius(30),
-                                            // Image radius
-                                            child: Image.network(
-                                                snapshot.data![index].imageUrl,
-                                                fit: BoxFit.cover),
-                                          ),
-                                        ),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      PageRouteBuilder(
+                                        transitionDuration:
+                                            Duration(seconds: 3),
+                                        pageBuilder: (
+                                          context,
+                                          animation,
+                                          secondaryAnimation,
+                                        ) {
+                                          return Scaffold(
+                                            body: InkWell(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  PageRouteBuilder(
+                                                    transitionDuration:
+                                                        Duration(seconds: 3),
+                                                    pageBuilder: (
+                                                      context,
+                                                      animation,
+                                                      secondaryAnimation,
+                                                    ) {
+                                                      return MyApp();
+                                                    },
+                                                  ),
+                                                );
+                                              },
+                                              child: Hero(
+                                                tag: 'NeWs',
+                                                child: Container(
+                                                  width: 60,
+                                                  height: 60,
+                                                  child: Image.network(snapshot
+                                                      .data![index].imageUrl),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
                                       ),
-                                      Container(
-                                        padding: EdgeInsets.only(left: 8.0),
-                                        width:
-                                            MediaQuery.of(context).size.width *
+                                    );
+                                  },
+                                  child: Hero(
+                                    tag: "NeWs",
+                                    child: Container(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            padding:
+                                                EdgeInsets.only(right: 8.0),
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
                                                 0.4,
-                                        height:
-                                            MediaQuery.of(context).size.height *
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
                                                 0.23,
-                                        child: Column(
-                                          children: [
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                            Text(
-                                              snapshot.data![index].title,
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.w700,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              // Image border
+                                              child: SizedBox.fromSize(
+                                                size: Size.fromRadius(30),
+                                                // Image radius
+                                                child: Image.network(
+                                                    snapshot
+                                                        .data![index].imageUrl,
+                                                    fit: BoxFit.cover),
                                               ),
                                             ),
-                                            SizedBox(
-                                              height: 30,
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.only(left: 8.0),
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.4,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.23,
+                                            child: Column(
+                                              children: [
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Text(
+                                                  snapshot.data![index].title,
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    fontSize: 30,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 30,
+                                                ),
+                                                Text(
+                                                  maxLines: 3,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  textAlign: TextAlign.center,
+                                                  snapshot.data![index].text,
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            Text(
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.center,
-                                              snapshot.data![index].text,
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(36)),
+                                          )
+                                        ],
+                                      ),
+
+                                      margin: EdgeInsets.symmetric(vertical: 10),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(36)),
+                                        color: Colors.pink,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -319,12 +393,15 @@ class _MainPageState extends State<MainPage> {
                         },
                       ),
                     ),
+                    SizedBox(
+                      height: 150,
+                    ),
                   ],
                 ),
               ),
             ),
             duration: Duration(
-              milliseconds: 500,
+              milliseconds: 300,
             ),
           ),
         ],
