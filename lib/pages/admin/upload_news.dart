@@ -50,6 +50,7 @@ class _Upload_NewsState extends State<Upload_News> {
     });
   }
 
+
   TextEditingController titleContr = TextEditingController();
   TextEditingController textContr = TextEditingController();
   TextEditingController timeContr = TextEditingController();
