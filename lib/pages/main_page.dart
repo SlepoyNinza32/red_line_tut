@@ -332,31 +332,34 @@ class _MainPageState extends State<MainPage> {
                                     MediaQuery.of(context).size.height * 0.3,
                                 child: InkWell(
                                   onTap: () {
-                                    showModalBottomSheet(
+                                    showBottomSheet(
                                       context: context,
                                       builder: (context) {
                                         return Container(
-                                          width: 500,
-                                          height: 500,
-                                          child: Column(
-                                            children: [
-                                              SizedBox(
-                                                height: 20,
-                                              ),
-                                              Text(
-                                                snapshot.data![index].title,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 30),
-                                              ),
-                                              SizedBox(
-                                                height: 20,
-                                              ),
-                                              Text(
-                                                snapshot.data![index].text,
-                                                style: TextStyle(fontSize: 25),
-                                              )
-                                            ],
+                                          height: MediaQuery.of(context).size.height,
+                                          width: MediaQuery.of(context).size.width,
+                                          padding: EdgeInsets.only(left: 10,right: 10),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              children: [
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Text(
+                                                  snapshot.data![index].title,
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: 30),
+                                                ),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Text(
+                                                  snapshot.data![index].text,
+                                                  style: TextStyle(fontSize: 20),
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         );
                                       },
