@@ -3,11 +3,11 @@ import 'package:hive/hive.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:red_line_tut/my_app.dart';
-import 'package:red_line_tut/pages/admin/upload_news.dart';
 
 import 'firebase_options.dart';
+import 'model/news_model.dart';
 import 'model/users_model.dart';
-import 'pages/admin/admin_page.dart';
+
 import 'pages/pages.dart';
 
 void main() async {
@@ -19,14 +19,15 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter<UsersModel>(UsersModelAdapter());
   Hive.registerAdapter<CoursesModel>(CoursesModelAdapter());
+  Hive.registerAdapter<News>(NewsAdapter());
   Box<UsersModel> box = await Hive.openBox<UsersModel>('profile');
+  Box<News> news = await Hive.openBox<News>('news');
   bool have = box.get('profileKey')?.isReg ?? false;
 
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:
-      have == true ? MyApp() : FirstPage(),
+      home: have == true ? MyApp() : FirstPage(),
     ),
   );
   // FirebaseFirestore.instance

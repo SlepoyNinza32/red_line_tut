@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:hive/hive.dart';
 import 'package:red_line_tut/model/news_model.dart';
-import 'package:red_line_tut/my_app.dart';
-
 import '../model/users_model.dart';
 
 class MainPage extends StatefulWidget {
@@ -18,11 +16,13 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   double y = 315;
   late Box<UsersModel> box;
+  late Box<News> news;
 
   @override
   void initState() {
     super.initState();
     box = Hive.box('profile');
+    news = Hive.box('news');
   }
 
   Future<List<News>> getNews() async {
@@ -232,76 +232,14 @@ class _MainPageState extends State<MainPage> {
                             return ListView.builder(
                               itemCount: 1,
                               itemBuilder: (context, index) {
-                                return CircularProgressIndicator();
-                                //
-                                //
-                                //
-                                //
-                                //
-                                //
-                                //
-                                //
-
-                                //
-
-                                //
-                              },
-                            );
-                          } else {
-                            return ListView.builder(
-                              itemBuilder: (context, index) => Container(
-                                margin: EdgeInsets.symmetric(horizontal: 6),
-                                width: MediaQuery.of(context).size.width * 0.9,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.3,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      PageRouteBuilder(
-                                        transitionDuration:
-                                            Duration(seconds: 3),
-                                        pageBuilder: (
-                                          context,
-                                          animation,
-                                          secondaryAnimation,
-                                        ) {
-                                          return Scaffold(
-                                            body: InkWell(
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  PageRouteBuilder(
-                                                    transitionDuration:
-                                                        Duration(seconds: 3),
-                                                    pageBuilder: (
-                                                      context,
-                                                      animation,
-                                                      secondaryAnimation,
-                                                    ) {
-                                                      return MyApp();
-                                                    },
-                                                  ),
-                                                );
-                                              },
-                                              child: Hero(
-                                                tag: 'NeWs',
-                                                child: Container(
-                                                  width: 60,
-                                                  height: 60,
-                                                  child: Image.network(snapshot
-                                                      .data![index].imageUrl),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  child: Hero(
-                                    tag: "NeWs",
-                                    child: Container(
+                                return ListView.builder(
+                                  itemBuilder: (context, index) => Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 6),
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.9,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.3,
+                                    child: Card(
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -326,9 +264,8 @@ class _MainPageState extends State<MainPage> {
                                               child: SizedBox.fromSize(
                                                 size: Size.fromRadius(30),
                                                 // Image radius
-                                                child: Image.network(
-                                                    snapshot
-                                                        .data![index].imageUrl,
+                                                child: Image.asset(
+                                                    "assets/rishtan.jpg",
                                                     fit: BoxFit.cover),
                                               ),
                                             ),
@@ -349,7 +286,7 @@ class _MainPageState extends State<MainPage> {
                                                   height: 20,
                                                 ),
                                                 Text(
-                                                  snapshot.data![index].title,
+                                                  news.getAt(index)!.title,
                                                   maxLines: 2,
                                                   overflow:
                                                       TextOverflow.ellipsis,
@@ -366,7 +303,7 @@ class _MainPageState extends State<MainPage> {
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   textAlign: TextAlign.center,
-                                                  snapshot.data![index].text,
+                                                  news.getAt(index)!.text,
                                                   style: TextStyle(
                                                     fontSize: 18,
                                                   ),
@@ -376,13 +313,130 @@ class _MainPageState extends State<MainPage> {
                                           )
                                         ],
                                       ),
-
-                                      margin: EdgeInsets.symmetric(vertical: 10),
-                                      decoration: BoxDecoration(
+                                      shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(36)),
-                                        color: Colors.pink,
                                       ),
+                                    ),
+                                  ),
+                                  itemCount: news.length,
+                                );
+                              },
+                            );
+                          } else {
+                            return ListView.builder(
+                              itemBuilder: (context, index) => Container(
+                                margin: EdgeInsets.symmetric(horizontal: 6),
+                                width: MediaQuery.of(context).size.width * 0.9,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.3,
+                                child: InkWell(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return Container(
+                                          width: 500,
+                                          height: 500,
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Text(
+                                                snapshot.data![index].title,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 30),
+                                              ),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Text(
+                                                snapshot.data![index].text,
+                                                style: TextStyle(fontSize: 25),
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Card(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(right: 8.0),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.23,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            // Image border
+                                            child: SizedBox.fromSize(
+                                              size: Size.fromRadius(30),
+                                              // Image radius
+                                              child: Image.network(
+                                                  snapshot
+                                                      .data![index].imageUrl,
+                                                  fit: BoxFit.cover),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 8.0),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.23,
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Text(
+                                                snapshot.data![index].title,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 30,
+                                              ),
+                                              Text(
+                                                maxLines: 3,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.center,
+                                                snapshot.data![index].text,
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(36)),
                                     ),
                                   ),
                                 ),
