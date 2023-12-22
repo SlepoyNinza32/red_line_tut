@@ -230,9 +230,6 @@ class _MainPageState extends State<MainPage> {
                         builder: (context, snapshot) {
                           if (snapshot.hasError || !snapshot.hasData) {
                             return ListView.builder(
-                              itemCount: 1,
-                              itemBuilder: (context, index) {
-                                return ListView.builder(
                                   itemBuilder: (context, index) => Container(
                                     margin: EdgeInsets.symmetric(horizontal: 6),
                                     width:
@@ -321,8 +318,7 @@ class _MainPageState extends State<MainPage> {
                                   ),
                                   itemCount: news.length,
                                 );
-                              },
-                            );
+
                           } else {
                             return ListView.builder(
                               itemBuilder: (context, index) => Container(
