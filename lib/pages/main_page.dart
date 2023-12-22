@@ -16,24 +16,22 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   double y = 315;
   late Box<UsersModel> box;
-  late Box<News> news;
 
   @override
   void initState() {
     super.initState();
     box = Hive.box('profile');
-    news = Hive.box('news');
   }
 
   Future<List<News>> getNews() async {
-    List<News> news = [];
+    List<News> news_list = [];
 
     await FirebaseFirestore.instance
         .collection("news")
         .get()
         .then((QuerySnapshot querysnapshot) {
       for (var m in querysnapshot.docs) {
-        news.add(
+        news_list.add(
           News(
             text: m.get('text'),
             time: m.get('time'),
@@ -43,7 +41,7 @@ class _MainPageState extends State<MainPage> {
         );
       }
     });
-    return news;
+    return news_list;
   }
 
   @override
@@ -195,132 +193,51 @@ class _MainPageState extends State<MainPage> {
                 setState(() {
                   if (y >= MediaQuery.of(context).size.height * 0.5) {
                     y = MediaQuery.of(context).size.height * 0.41;
-                  } else if (y < MediaQuery.of(context).size.height * 0.5) {
-                    y = 0;
+                  }
+                  // else if (y < MediaQuery.of(context).size.height * 0.5) {
+                  //
+                  // }
+                  else if(y<MediaQuery.of(context).size.height){
+                    y =0;
                   }
                 });
               },
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                decoration: BoxDecoration(
-                  color: Color(0xffD9D9D9),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    topRight: Radius.circular(10.0),
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(
-                        top: 10,
-                        bottom: 10,
-                      ),
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      height: MediaQuery.of(context).size.height * 0.01,
+              child: FutureBuilder(
+                future: getNews(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError || !snapshot.hasData) {
+                    return Container();
+                    //
+                    //
+                    //
+                  } else {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      height:  MediaQuery.of(context).size.height * 0.3*snapshot.data!.length+MediaQuery.of(context).size.height * 0.1,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(32),
-                        color: Color(0xff141E46),
+                        color: Color(0xffD9D9D9),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10.0),
+                          topRight: Radius.circular(10.0),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: FutureBuilder(
-                        future: getNews(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError || !snapshot.hasData) {
-                            return ListView.builder(
-                                  itemBuilder: (context, index) => Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 6),
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.9,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.3,
-                                    child: Card(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            padding:
-                                                EdgeInsets.only(right: 8.0),
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.4,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.23,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              // Image border
-                                              child: SizedBox.fromSize(
-                                                size: Size.fromRadius(30),
-                                                // Image radius
-                                                child: Image.asset(
-                                                    "assets/rishtan.jpg",
-                                                    fit: BoxFit.cover),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.only(left: 8.0),
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.4,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.23,
-                                            child: Column(
-                                              children: [
-                                                SizedBox(
-                                                  height: 20,
-                                                ),
-                                                Text(
-                                                  news.getAt(index)!.title,
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    fontSize: 30,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 30,
-                                                ),
-                                                Text(
-                                                  maxLines: 3,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  textAlign: TextAlign.center,
-                                                  news.getAt(index)!.text,
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(36)),
-                                      ),
-                                    ),
-                                  ),
-                                  itemCount: news.length,
-                                );
-
-                          } else {
-                            return ListView.builder(
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: 10,
+                              bottom: 10,
+                            ),
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            height: MediaQuery.of(context).size.height * 0.01,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(32),
+                              color: Color(0xff141E46),
+                            ),
+                          ),
+                          Expanded(
+                            child: ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) => Container(
                                 margin: EdgeInsets.symmetric(horizontal: 6),
                                 width: MediaQuery.of(context).size.width * 0.9,
@@ -332,27 +249,38 @@ class _MainPageState extends State<MainPage> {
                                       context: context,
                                       builder: (context) {
                                         return Container(
-                                          height: MediaQuery.of(context).size.height,
-                                          width: MediaQuery.of(context).size.width,
-                                          padding: EdgeInsets.only(left: 10,right: 10),
+                                          height: MediaQuery.of(context)
+                                              .size
+                                              .height,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          padding: EdgeInsets.all(10),
                                           child: SingleChildScrollView(
                                             child: Column(
                                               children: [
-                                                SizedBox(
-                                                  height: 20,
-                                                ),
                                                 Text(
-                                                  snapshot.data![index].title,
+                                                  "${snapshot.data![index].title} ",
                                                   style: TextStyle(
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                       fontSize: 30),
                                                 ),
                                                 SizedBox(
-                                                  height: 20,
+                                                  height: 15,
+                                                ),
+                                                Image.network(
+                                                    snapshot
+                                                        .data![index].imageUrl,
+                                                    fit: BoxFit.fitWidth),
+                                                Divider(
+                                                  color: Colors.black,
+                                                  height: 5,
                                                 ),
                                                 Text(
                                                   snapshot.data![index].text,
-                                                  style: TextStyle(fontSize: 20),
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: Color(0xFF141E46)),
                                                 )
                                               ],
                                             ),
@@ -376,8 +304,8 @@ class _MainPageState extends State<MainPage> {
                                               0.4,
                                           height: MediaQuery.of(context)
                                                   .size
-                                                  .height *
-                                              0.23,
+                                                  .width *
+                                              0.4,
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(20),
@@ -403,10 +331,9 @@ class _MainPageState extends State<MainPage> {
                                                   .height *
                                               0.23,
                                           child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
-                                              SizedBox(
-                                                height: 20,
-                                              ),
                                               Text(
                                                 snapshot.data![index].title,
                                                 maxLines: 2,
@@ -417,15 +344,18 @@ class _MainPageState extends State<MainPage> {
                                                 ),
                                               ),
                                               SizedBox(
-                                                height: 30,
+                                                height: 8,
                                               ),
-                                              Text(
-                                                maxLines: 3,
-                                                overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.center,
-                                                snapshot.data![index].text,
-                                                style: TextStyle(
-                                                  fontSize: 18,
+                                              Flexible(
+                                                child: Text(
+                                                  maxLines: 3,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  textAlign: TextAlign.center,
+                                                  snapshot.data![index].text,
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -441,16 +371,13 @@ class _MainPageState extends State<MainPage> {
                                 ),
                               ),
                               itemCount: snapshot.data?.length,
-                            );
-                          }
-                        },
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    SizedBox(
-                      height: 150,
-                    ),
-                  ],
-                ),
+                    );
+                  }
+                },
               ),
             ),
             duration: Duration(
