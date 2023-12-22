@@ -33,33 +33,58 @@ class ListIdModel {
 }
 
 class CheckList {
-  String? name;
-  bool? was;
+  List<StudentsList>? list;
   String? day;
 
 
   @override
   String toString() {
-    return 'CheckList{name: $name, was: $was, day: $day}';
+    return 'CheckList{students which was: $list, day: $day}';
   }
 
-  CheckList({this.name, this.was, this.day});
+  CheckList({this.list, this.day});
 
   CheckList.fromJson(Map<String, dynamic> json) {
     // ids = json['ids'];
-    name = json['name'];
-    was = json['was'];
+
     day = json['day'];
+    list = List<StudentsList>.from(json['students'].map((e) => StudentsList.fromJson(e)));
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     // data['ids'] = ids;
-    data['was'] = was;
+    data['students'] = list;
     data['day'] = day;
-    data['name'] = name;
     return data;
   }
+}
+
+class StudentsList {
+  String? name;
+  bool? attended = false;
+
+  StudentsList.fromJson(Map<String, dynamic> json) {
+    // ids = json['ids'];
+
+    attended = json['attended'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    // data['ids'] = ids;
+    data['name'] = name;
+    data['was'] = attended;
+    return data;
+  }
+
+  @override
+  String toString() {
+    return 'StudentsList{name: $name, was: $attended}';
+  }
+
+  StudentsList(this.name, this.attended);
 }
 
 ListJsontoIdModel(dynamic json) {

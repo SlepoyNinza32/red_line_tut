@@ -19,7 +19,10 @@ class StudentsListPage extends StatefulWidget {
 class _StudentsListPageState extends State<StudentsListPage> {
   //List<Student> st = [];
   List<ListIdModel> gggl = [];
-  List<CheckList> currentCheckList = [];
+  CheckList currentCheckList = CheckList(
+    day: '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+    list: [],
+  );
 
   Future<List<ListIdModel>> getIds() async {
     await FirebaseFirestore.instance
@@ -95,7 +98,13 @@ class _StudentsListPageState extends State<StudentsListPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('${snapshot.data![widget.ind].students[index]}'),
+                      Text(
+                        '${snapshot.data![widget.ind].students[index]}',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.2,
                         child: Row(
@@ -106,25 +115,51 @@ class _StudentsListPageState extends State<StudentsListPage> {
                               onTap: () {
                                 setState(() {
                                   bool has = false;
-                                  for (var b in currentCheckList) {
-                                    if (snapshot
-                                        .data![widget.ind].students[index] ==
-                                        b.name) {
+                                  // if(currentCheckList.list.contains('${snapshot.data![widget.ind].students[index]}')){
+                                  //
+                                  // }
+                                  if (currentCheckList.list!.isEmpty) {
+                                    currentCheckList.list?.add(StudentsList(
+                                        '${snapshot.data![widget.ind].students[index]}',
+                                        false));
+                                  }
+                                  // break;
+                                  for (var b = 0;
+                                      b >= currentCheckList.list!.length;
+                                      b++) {
+                                    if (currentCheckList.list![b].name ==
+                                        '${snapshot.data![widget.ind].students[index]}') {
                                       has = true;
-                                      b.was = false;
+                                      currentCheckList.list![b].attended = false;
                                     }
                                   }
                                   if (has == false) {
-                                    currentCheckList.add(
-                                      CheckList(
-                                        name: snapshot
-                                            .data![widget.ind].students[index],
-                                        was: false,
-                                        day:
-                                        '${DateTime.now().day}${DateTime.now().month}${DateTime.now().year}',
-                                      ),
-                                    );
+                                    currentCheckList.list?.add(StudentsList(
+                                        '${snapshot.data![widget.ind].students[index]}',
+                                        false));
                                   }
+                                  // for (var b in currentCheckList) {
+                                  //   if (snapshot.data![widget.ind]
+                                  //           .students[index] ==
+                                  //       b.list?[index].name) {
+                                  //     // has = true;
+                                  //     // b.was = false;
+                                  //   }
+                                  // }
+                                  // snapshot.data[widget.ind].
+                                  // currentCheckList[index].list.add(ObjectKey());
+
+                                  // if (has == false) {
+                                  //   // currentCheckList.add(
+                                  //   //   // CheckList(
+                                  //   //   //   name: snapshot
+                                  //   //   //       .data![widget.ind].students[index],
+                                  //   //   //   was: false,
+                                  //   //   //   day:
+                                  //   //   //       '${DateTime.now().day}${DateTime.now().month}${DateTime.now().year}',
+                                  //   //   // ),
+                                  //   // );
+                                  // }
                                 });
                               },
                             ),
@@ -132,23 +167,27 @@ class _StudentsListPageState extends State<StudentsListPage> {
                               onTap: () {
                                 setState(() {
                                   bool has = false;
-                                  for(var b in currentCheckList){
-                                    if(snapshot.data![widget.ind].students[index] == b.name){
+
+                                  if (currentCheckList.list!.isEmpty) {
+                                    currentCheckList.list?.add(StudentsList(
+                                        '${snapshot.data![widget.ind].students[index]}',
+                                        true));
+                                  }
+                                  for (var b = 0;
+                                      b >= currentCheckList.list!.length;
+                                      b++) {
+                                    if (currentCheckList.list![b].name ==
+                                        '${snapshot.data![widget.ind].students[index]}') {
                                       has = true;
-                                      b.was = true;
+                                      currentCheckList.list![b].attended = true;
                                     }
                                   }
-                                  if(has == false){
-                                    currentCheckList.add(
-                                      CheckList(
-                                        name: snapshot
-                                            .data![widget.ind].students[index],
-                                        was: true,
-                                        day:
-                                        '${DateTime.now().day}${DateTime.now().month}${DateTime.now().year}',
-                                      ),
-                                    );
+                                  if (has == false) {
+                                    currentCheckList.list?.add(StudentsList(
+                                        '${snapshot.data![widget.ind].students[index]}',
+                                        true));
                                   }
+
                                 });
                               },
                               child: Icon(Icons.check),
