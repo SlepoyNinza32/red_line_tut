@@ -19,9 +19,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter<UsersModel>(UsersModelAdapter());
   Hive.registerAdapter<CoursesModel>(CoursesModelAdapter());
-  Hive.registerAdapter<News>(NewsAdapter());
   Box<UsersModel> box = await Hive.openBox<UsersModel>('profile');
-  Box<News> news = await Hive.openBox<News>('news');
   bool have = box.get('profileKey')?.isReg ?? false;
 
   runApp(
