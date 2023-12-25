@@ -1,3 +1,5 @@
+//import 'dart:js_interop';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:red_line_tut/model/admin_model.dart';
@@ -21,7 +23,9 @@ class _StudentsListPageState extends State<StudentsListPage> {
   List<ListIdModel> gggl = [];
   CheckList currentCheckList = CheckList(
     day: '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
-    list: [],
+    list: [
+      StudentsList(attended: true, name: 'None'),
+    ],
   );
 
   Future<List<ListIdModel>> getIds() async {
@@ -118,11 +122,11 @@ class _StudentsListPageState extends State<StudentsListPage> {
                                   // if(currentCheckList.list.contains('${snapshot.data![widget.ind].students[index]}')){
                                   //
                                   // }
-                                  if (currentCheckList.list!.isEmpty) {
-                                    currentCheckList.list?.add(StudentsList(
-                                        '${snapshot.data![widget.ind].students[index]}',
-                                        false));
-                                  }
+                                  // if (currentCheckList.list!.isEmpty) {
+                                  //   currentCheckList.list?.add(StudentsList(name:
+                                  //   '${snapshot.data![widget.ind].students[index]}',
+                                  //       attended: false));
+                                  // }
                                   // break;
                                   for (var b = 0;
                                       b >= currentCheckList.list!.length;
@@ -130,13 +134,15 @@ class _StudentsListPageState extends State<StudentsListPage> {
                                     if (currentCheckList.list![b].name ==
                                         '${snapshot.data![widget.ind].students[index]}') {
                                       has = true;
-                                      currentCheckList.list![b].attended = false;
+                                      currentCheckList.list![b].attended =
+                                          false;
                                     }
                                   }
                                   if (has == false) {
                                     currentCheckList.list?.add(StudentsList(
-                                        '${snapshot.data![widget.ind].students[index]}',
-                                        false));
+                                        name:
+                                            '${snapshot.data![widget.ind].students[index]}',
+                                        attended: false));
                                   }
                                   // for (var b in currentCheckList) {
                                   //   if (snapshot.data![widget.ind]
@@ -169,9 +175,13 @@ class _StudentsListPageState extends State<StudentsListPage> {
                                   bool has = false;
 
                                   if (currentCheckList.list!.isEmpty) {
-                                    currentCheckList.list?.add(StudentsList(
-                                        '${snapshot.data![widget.ind].students[index]}',
-                                        true));
+                                    currentCheckList.list?.add(
+                                      StudentsList(
+                                        name:
+                                            '${snapshot.data![widget.ind].students[index]}',
+                                        attended: true,
+                                      ),
+                                    );
                                   }
                                   for (var b = 0;
                                       b >= currentCheckList.list!.length;
@@ -183,11 +193,14 @@ class _StudentsListPageState extends State<StudentsListPage> {
                                     }
                                   }
                                   if (has == false) {
-                                    currentCheckList.list?.add(StudentsList(
-                                        '${snapshot.data![widget.ind].students[index]}',
-                                        true));
+                                    currentCheckList.list?.add(
+                                      StudentsList(
+                                        name:
+                                            '${snapshot.data![widget.ind].students[index]}',
+                                        attended: true,
+                                      ),
+                                    );
                                   }
-
                                 });
                               },
                               child: Icon(Icons.check),
@@ -215,8 +228,44 @@ class _StudentsListPageState extends State<StudentsListPage> {
               width: 1,
             ),
             InkWell(
-              onTap: () {
-                print(currentCheckList);
+              onTap: () async {
+                await Future.delayed(Duration(seconds: 1), () async {
+                  for(var b in currentCheckList.list!){
+                    if(b.name == 'None'){
+
+                    }
+                  }
+                  List<CheckList> checkListPost = [currentCheckList];
+                  //print(currentCheckList);
+                  //print(widget.keyO);
+                  await FirebaseFirestore.instance
+                      .collection('groups')
+                      .doc(widget.keyO)
+                      .get()
+                      .then((value) {
+                        // value.data().update('', (value) => true, )
+                    //print(checkListPost);
+                    checkListPost
+                        .addAll(ListJsontoIdModel(value.data()!['checkList']));
+                    //print(checkListPost);
+                    //print(value.data());
+                    checkListPost.add(currentCheckList);
+                    // value.data()?.update('checkList', (value) => checkListPost, ifAbsent:() {
+                    //   // return ;
+                    //   print('Error with list');
+                    // },);
+                    print(checkListPost);
+
+                  });
+                  await FirebaseFirestore.instance.collection('groups').doc(widget.keyO).update({
+                    'checkList':checkListPost.map((e) => e.toJson()).toList()
+                  });
+                  
+                },);
+
+                //print(checkListPost);
+
+                currentCheckList.list?.clear();
               },
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.4,
