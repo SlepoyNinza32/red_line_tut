@@ -197,8 +197,8 @@ class _MainPageState extends State<MainPage> {
                   // else if (y < MediaQuery.of(context).size.height * 0.5) {
                   //
                   // }
-                  else if(y<MediaQuery.of(context).size.height){
-                    y =0;
+                  else if (y < MediaQuery.of(context).size.height) {
+                    y = 0;
                   }
                 });
               },
@@ -213,7 +213,10 @@ class _MainPageState extends State<MainPage> {
                   } else {
                     return Container(
                       width: MediaQuery.of(context).size.width,
-                      height:  MediaQuery.of(context).size.height * 0.3*snapshot.data!.length+MediaQuery.of(context).size.height * 0.1,
+                      height: MediaQuery.of(context).size.height *
+                              0.3 *
+                              snapshot.data!.length +
+                          MediaQuery.of(context).size.height * 0.1,
                       decoration: BoxDecoration(
                         color: Color(0xffD9D9D9),
                         borderRadius: BorderRadius.only(
@@ -269,18 +272,40 @@ class _MainPageState extends State<MainPage> {
                                                   height: 15,
                                                 ),
                                                 Image.network(
-                                                    snapshot
-                                                        .data![index].imageUrl,
+                                                    snapshot.data![index]
+                                                        .imageUrl,
                                                     fit: BoxFit.fitWidth),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
                                                 Divider(
                                                   color: Colors.black,
                                                   height: 5,
                                                 ),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
                                                 Text(
-                                                  snapshot.data![index].text,
+                                                  snapshot
+                                                      .data![index].text,
                                                   style: TextStyle(
                                                       fontSize: 20,
-                                                      color: Color(0xFF141E46)),
+                                                      color: Color(
+                                                          0xFF141E46)),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .end,
+                                                  children: [
+                                                    Text(snapshot
+                                                        .data![index].time)
+                                                  ],
                                                 )
                                               ],
                                             ),

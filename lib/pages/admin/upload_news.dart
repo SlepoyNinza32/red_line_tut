@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Upload_News extends StatefulWidget {
   const Upload_News({super.key});
@@ -35,29 +36,35 @@ class _Upload_NewsState extends State<Upload_News> {
           .ref()
           .child(pickedFile?.name ?? "")
           .getDownloadURL();
-      if (timeContr.text != "" &&
-          textContr.text != "" &&
-          timeContr.text != "" &&
-          imageUrl != ""
-      ) {
+      if (titleContr.text != "" && textContr.text != "" && imageUrl != "") {
+        String formattedDate = DateFormat('EEEE H:m').format(DateTime.now());
         news.add({
           "title": titleContr.text,
           "text": textContr.text,
-          "time": timeContr.text,
+          "time": formattedDate,
           "imageUrl": imageUrl
         });
       }
     });
   }
 
-
   TextEditingController titleContr = TextEditingController();
   TextEditingController textContr = TextEditingController();
-  TextEditingController timeContr = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFFFF6969),
+        title: Text(
+          "Upload news",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
       backgroundColor: Color(0xFFFFF5E0),
       body: SafeArea(
         child: Column(
@@ -78,14 +85,6 @@ class _Upload_NewsState extends State<Upload_News> {
                     border: OutlineInputBorder(), hintText: "Text"),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: timeContr,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), hintText: "Time"),
-              ),
-            ),
             MaterialButton(
               onPressed: () {
                 selectImage();
@@ -95,6 +94,7 @@ class _Upload_NewsState extends State<Upload_News> {
             MaterialButton(
               onPressed: () {
                 uploadNews().then((value) {});
+                titleContr.text = "";
               },
               child: Text("Publish"),
             ),
