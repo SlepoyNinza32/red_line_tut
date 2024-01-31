@@ -36,13 +36,13 @@ class _Upload_NewsState extends State<Upload_News> {
           .ref()
           .child(pickedFile?.name ?? "")
           .getDownloadURL();
-      if (titleContr.text != "" && textContr.text != "" && imageUrl != "") {
-        String formattedDate = DateFormat('EEEE H:m').format(DateTime.now());
+      String formattedDate = DateFormat('EEEE H:m').format(DateTime.now());
+      if (titleContr.text != "" && textContr.text != "") {
         news.add({
           "title": titleContr.text,
           "text": textContr.text,
           "time": formattedDate,
-          "imageUrl": imageUrl
+          "imageUrl": imageUrl.toString()
         });
       }
     });
@@ -93,8 +93,7 @@ class _Upload_NewsState extends State<Upload_News> {
             ),
             MaterialButton(
               onPressed: () {
-                uploadNews().then((value) {});
-                titleContr.text = "";
+                uploadNews();
               },
               child: Text("Publish"),
             ),

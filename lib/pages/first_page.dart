@@ -41,8 +41,7 @@ class _FirstPageState extends State<FirstPage> {
             child: RiveAnimation.asset(
               Assets.riveAssetsBackgroundLogin,
               fit: BoxFit.cover,
-              onInit: (artboard) {
-              },
+              onInit: (artboard) {},
             ),
           ),
           Container(
@@ -91,132 +90,160 @@ class _FirstPageState extends State<FirstPage> {
                     ),
                     child: MaterialButton(
                       onPressed: () {
-                        showDialog(
+                        showGeneralDialog(
+                          barrierDismissible: true,
+                          barrierLabel: "Sign in",
+                          transitionDuration: Duration(milliseconds: 400),
+                          transitionBuilder: (_, animation, __, child) {
+                            Tween<Offset> tween;
+                            tween =
+                                Tween(begin: Offset(0, -1), end: Offset.zero);
+                            return SlideTransition(
+                              position: tween.animate(CurvedAnimation(
+                                  parent: animation, curve: Curves.easeInOut)),
+                              child: child,
+                            );
+                          },
                           context: context,
-                          builder: (context) => AlertDialog(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(23)),
-                            elevation: 1,
-                            title: Text('Login'),
-                            actions: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(23),
-                                child: MaterialButton(
-                                  onPressed: () {
-                                    FirebaseFirestore.instance
-                                        .collection('users')
-                                        .where('login',
-                                            isEqualTo: loginContr.value.text)
-                                        .where('password',
-                                            isEqualTo: passwordContr.value.text)
-                                        .get()
-                                        .then((QuerySnapshot querySnapshot) {
-                                      if (!querySnapshot.docs.isEmpty) {
-                                        for (var m in querySnapshot.docs) {
-                                          box.put(
-                                            'profileKey',
-                                            UsersModel(
-                                              avatar: m.get('avatar'),
-                                              courses:
-                                                  ListJson(m.get('courses')),
-                                              isReg: true,
-                                              key: m.id,
-                                              login: m.get('login'),
-                                              name: m.get('name'),
-                                              password: m.get('password'),
-                                              sex: m.get('sex'),
-                                              telephoneNumber:
-                                                  m.get('telNumber'),
-                                              about: m.get('about'),
-                                            ),
-                                          );
-                                        }
-                                        Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => MyApp(),
-                                          ),
-                                          (route) {
-                                            return false;
-                                          },
-                                        );
-                                      } else {
-                                        Navigator.pop(context);
-                                      }
-                                    });
-                                  },
-                                  child: Container(
-                                    // width: MediaQuery.of(context).size.width * 0.5,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.06,
-                                    child: const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text("Let's go!",
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.white,
-                                                fontFamily: "EBG")),
-                                      ],
-                                    ),
-                                  ),
-                                  color: Color(0xFFFF785B),
-                                ),
-                              ),
-                            ],
-                            content: StatefulBuilder(builder:
-                                (BuildContext context, StateSetter setState1) {
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
+                          pageBuilder: (context, _, __) {
+                            return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(23)),
+                              elevation: 1,
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: TextField(
-                                      controller: loginContr,
-                                      decoration: const InputDecoration(
-                                          labelText: "Login",
-                                          border: OutlineInputBorder(
-                                              gapPadding: 20,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(20)))),
-                                    ),
+                                  Text(
+                                    'Login',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: "Poppins",
+                                        fontSize: 30),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: TextField(
-                                      controller: passwordContr,
-                                      obscureText: isVisible,
-                                      decoration: InputDecoration(
-                                        suffixIconColor: Colors.black54,
-                                        suffixIcon: IconButton(
-                                            onPressed: () {
-                                              print(isVisible);
-                                              setState1(() {
-                                                if (isVisible != false) {
-                                                  isVisible = false;
-                                                } else {
-                                                  isVisible = true;
-                                                }
-                                              });
+                                ],
+                              ),
+                              actions: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(23),
+                                  child: MaterialButton(
+                                    onPressed: () {
+                                      FirebaseFirestore.instance
+                                          .collection('users')
+                                          .where('login',
+                                              isEqualTo: loginContr.value.text)
+                                          .where('password',
+                                              isEqualTo:
+                                                  passwordContr.value.text)
+                                          .get()
+                                          .then((QuerySnapshot querySnapshot) {
+                                        if (!querySnapshot.docs.isEmpty) {
+                                          for (var m in querySnapshot.docs) {
+                                            box.put(
+                                              'profileKey',
+                                              UsersModel(
+                                                avatar: m.get('avatar'),
+                                                courses:
+                                                    ListJson(m.get('courses')),
+                                                isReg: true,
+                                                key: m.id,
+                                                login: m.get('login'),
+                                                name: m.get('name'),
+                                                password: m.get('password'),
+                                                sex: m.get('sex'),
+                                                telephoneNumber:
+                                                    m.get('telNumber'),
+                                                about: m.get('about'),
+                                              ),
+                                            );
+                                          }
+                                          Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => MyApp(),
+                                            ),
+                                            (route) {
+                                              return false;
                                             },
-                                            icon: Icon(isVisible == false
-                                                ? Icons.visibility
-                                                : Icons.visibility_off)),
-                                        labelText: "Password",
-                                        border: const OutlineInputBorder(
-                                          gapPadding: 20,
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(20),
+                                          );
+                                        } else {
+                                          Navigator.pop(context);
+                                        }
+                                      });
+                                    },
+                                    child: Container(
+                                      // width: MediaQuery.of(context).size.width * 0.5,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.06,
+                                      child: const Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text("Let's go!",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  color: Colors.white,
+                                                  fontFamily: "EBG")),
+                                        ],
+                                      ),
+                                    ),
+                                    color: Color(0xFFFF785B),
+                                  ),
+                                ),
+                              ],
+                              content: StatefulBuilder(builder:
+                                  (BuildContext context,
+                                      StateSetter setState1) {
+                                return Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: TextField(
+                                        controller: loginContr,
+                                        decoration: const InputDecoration(
+                                            labelText: "Login",
+                                            border: OutlineInputBorder(
+                                                gapPadding: 20,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(20)))),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: TextField(
+                                        controller: passwordContr,
+                                        obscureText: isVisible,
+                                        decoration: InputDecoration(
+                                          suffixIconColor: Colors.black54,
+                                          suffixIcon: IconButton(
+                                              onPressed: () {
+                                                setState1(() {
+                                                  if (isVisible != false) {
+                                                    isVisible = false;
+                                                  } else {
+                                                    isVisible = true;
+                                                  }
+                                                });
+                                              },
+                                              icon: Icon(isVisible == false
+                                                  ? Icons.visibility
+                                                  : Icons.visibility_off)),
+                                          labelText: "Password",
+                                          border: const OutlineInputBorder(
+                                            gapPadding: 20,
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(20),
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              );
-                            }),
-                          ),
+                                  ],
+                                );
+                              }),
+                            );
+                          },
                         );
                       },
                       color: Colors.white,
